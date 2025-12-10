@@ -6,21 +6,34 @@
 <title>Khulna - Jashore Trip Options (15–21 Dec 2025)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f5f7fb;--card:#ffffff;--muted:#6b7280;--accent:#0ea5a4;--travel:#fde68a;--stay:#bbf7d0;--transfer:#93c5fd;--meal:#ffd1dc;--friday:#ffe4b5}
+  :root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --accent:#0ea5a4;
+    --bumble:#FFCD00; /* Bumble yellow */
+    --travel:#fde68a;
+    --stay:#bbf7d0;
+    --transfer:#93c5fd;
+    --meal:#ffd1dc;
+    --friday:#ffe4b5
+  }
   *{box-sizing:border-box}
   body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:#0f172a}
   .wrap{max-width:1100px;margin:28px auto;padding:22px}
-  header{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+  header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
   h1{margin:0;font-size:20px}
   .meta{color:var(--muted);font-size:13px}
   .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
   .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 8px 28px rgba(2,6,23,0.06)}
   .option-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
   .btn{background:transparent;border:1px solid #e6eef0;padding:6px 10px;border-radius:8px;cursor:pointer}
+  .btn.view{background:var(--bumble);border:none;color:#000;font-weight:600;padding:8px 12px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.08)}
+  .btn.secondary{background:transparent;border:1px solid #e6eef0;color:#0f172a}
   .timeline{margin-top:12px}
   .day-row{display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;margin-bottom:8px}
   .day-label{width:160px;font-weight:600}
-  .bar{flex:1;height:36px;border-radius:10px;display:flex;align-items:center;gap:6px;padding:4px;position:relative}
+  .bar{flex:1;height:36px;border-radius:10px;display:flex;align-items:center;gap:6px;padding:4px;position:relative;flex-wrap:wrap}
   .seg{height:28px;border-radius:8px;padding:4px 8px;font-size:13px;display:inline-flex;align-items:center}
   .seg.travel{background:var(--travel)}
   .seg.stay{background:var(--stay)}
@@ -36,7 +49,14 @@
   .proscons{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
   .pc{flex:1;min-width:220px}
   .highlight-friday{background:var(--friday)!important}
-  @media(max-width:880px){.day-label{width:110px;font-size:13px}.bar{height:32px}.seg{font-size:12px}}
+  .summary-visible{margin-top:8px;color:var(--muted);font-weight:500}
+  @media(max-width:880px){
+    .day-label{width:110px;font-size:13px}
+    .bar{height:32px}
+    .seg{font-size:12px}
+    .option-head{flex-direction:column;align-items:flex-start;gap:10px}
+    .btn.view{width:100%}
+  }
 </style>
 </head>
 <body>
@@ -56,17 +76,14 @@
           <div>
             <h3 style="margin:0">Option A — (No night stay at Khulna on 19-12-2025)</h3>
             <div class="muted">Min leave required — Pros/Cons below</div>
-<div class="summary-block">
-  <button class="btn secondary" onclick="toggle('sumA')">Show Summary</button>
-  <div id="sumA" style="display:none;margin-top:8px" class="muted">Ctg → Dhaka → Jessore (2 nights) → Khulna (1 night) → Dhaka → Chattogram</div>
-  <div style="margin-top:8px;display:flex;gap:8px">
-    <button class="btn" onclick="printSection('optionA')">Print</button>
-    <button class="btn secondary" onclick="downloadSummary('sumA','optionA-summary.txt')">Download Summary</button>
-  </div>
-</div>
+
+            <!-- Summary shown directly -->
+            <div class="summary-visible">Ctg → Dhaka → Jessore (2 nights) → Khulna (1 night) → Dhaka → Chattogram</div>
           </div>
+
           <div>
-            <button class="btn" onclick="toggle('tlA')">View Timeline</button>
+            <!-- Bumble yellow "View Timeline" -->
+            <button class="btn view" onclick="toggle('tlA')">View Timeline</button>
           </div>
         </div>
 
@@ -167,17 +184,13 @@
           <div>
             <h3 style="margin:0">Option B — (Night stay at Khulna on 19-12-2025)</h3>
             <div class="muted">Moderate utilization, early rush on 20th</div>
-<div class="summary-block">
-  <button class="btn secondary" onclick="toggle('sumB')">Show Summary</button>
-  <div id="sumB" style="display:none;margin-top:8px" class="muted">Ctg → Dhaka → Jessore (2 nights) → Khulna (1 night) → Dhaka (early train) → Chattogram</div>
-  <div style="margin-top:8px;display:flex;gap:8px">
-    <button class="btn" onclick="printSection('optionB')">Print</button>
-    <button class="btn secondary" onclick="downloadSummary('sumB','optionB-summary.txt')">Download Summary</button>
-  </div>
-</div>
+
+            <!-- Summary shown directly -->
+            <div class="summary-visible">Ctg → Dhaka → Jessore (2 nights) → Khulna (1 night) → Dhaka (early train) → Chattogram</div>
           </div>
+
           <div>
-            <button class="btn" onclick="toggle('tlB')">View Timeline</button>
+            <button class="btn view" onclick="toggle('tlB')">View Timeline</button>
           </div>
         </div>
 
@@ -267,17 +280,13 @@
           <div>
             <h3 style="margin:0">Option C — Relaxed morning leave to Dhaka on 20-12-2025 (returns 21-Dec morning)</h3>
             <div class="muted">Max stay — requires extra leave</div>
-<div class="summary-block">
-  <button class="btn secondary" onclick="toggle('sumC')">Show Summary</button>
-  <div id="sumC" style="display:none;margin-top:8px" class="muted">Ctg → Dhaka → Jessore (2 nights) → Khulna (2 nights) → Dhaka (evening) → Chattogram (next morning)</div>
-  <div style="margin-top:8px;display:flex;gap:8px">
-    <button class="btn" onclick="printSection('optionC')">Print</button>
-    <button class="btn secondary" onclick="downloadSummary('sumC','optionC-summary.txt')">Download Summary</button>
-  </div>
-</div>
+
+            <!-- Summary shown directly -->
+            <div class="summary-visible">Ctg → Dhaka → Jessore (2 nights) → Khulna (2 nights) → Dhaka (evening) → Chattogram (next morning)</div>
           </div>
+
           <div>
-            <button class="btn" onclick="toggle('tlC')">View Timeline</button>
+            <button class="btn view" onclick="toggle('tlC')">View Timeline</button>
           </div>
         </div>
 
@@ -333,6 +342,7 @@ function toggle(id){
   if(!el) return; el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
 }
 
+/* kept for compatibility if you want to print an option block */
 function printSection(id){
   const el = document.getElementById(id);
   if(!el){ window.print(); return; }
@@ -342,15 +352,6 @@ function printSection(id){
   w.document.close();
   w.focus();
   setTimeout(()=>{ w.print(); w.close(); },300);
-}
-
-function downloadSummary(elemId, filename){
-  const el = document.getElementById(elemId);
-  if(!el){ alert('Summary not found'); return; }
-  const text = el.textContent || el.innerText;
-  const blob = new Blob([text], {type:'text/plain'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
 }
 </script>
 </body>
