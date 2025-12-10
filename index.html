@@ -3,25 +3,26 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Khulna - Jashore Trip Options (15–21 Dec 2025)</title>
+<title>Khulna - Jashore Trip Planner (Interactive)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f5f7fb;--card:#ffffff;--muted:#6b7280;--accent:#0ea5a4;--travel:#fde68a;--stay:#bbf7d0;--transfer:#93c5fd;--meal:#ffd1dc;--friday:#ffe4b5}
+  :root{--bg:#f5f7fb;--card:#fff;--muted:#6b7280;--accent:#0ea5a4;--travel:#fde68a;--stay:#bbf7d0;--transfer:#93c5fd;--meal:#ffd1dc;--friday:#ffe4b5}
   *{box-sizing:border-box}
   body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:#0f172a}
-  .wrap{max-width:1100px;margin:28px auto;padding:22px}
-  header{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+  .wrap{max-width:1100px;margin:18px auto;padding:16px}
+  header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
   h1{margin:0;font-size:20px}
   .meta{color:var(--muted);font-size:13px}
-  .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
-  .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 8px 28px rgba(2,6,23,0.06)}
+  .grid{display:grid;grid-template-columns:repeat(1,1fr);gap:18px;margin-top:14px}
+  .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 8px 28px rgba(2,6,23,0.06)}
   .option-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
-  .btn{background:transparent;border:1px solid #e6eef0;padding:6px 10px;border-radius:8px;cursor:pointer}
+  .btn{background:var(--accent);border:none;color:white;padding:8px 12px;border-radius:8px;cursor:pointer}
+  .btn.secondary{background:transparent;border:1px solid #e6eef0;color:#0f172a}
   .timeline{margin-top:12px}
   .day-row{display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;margin-bottom:8px}
-  .day-label{width:160px;font-weight:600}
-  .bar{flex:1;height:36px;border-radius:10px;display:flex;align-items:center;gap:6px;padding:4px;position:relative}
-  .seg{height:28px;border-radius:8px;padding:4px 8px;font-size:13px;display:inline-flex;align-items:center}
+  .day-label{width:150px;font-weight:600}
+  .bar{flex:1;min-height:44px;border-radius:10px;display:flex;align-items:center;gap:6px;padding:6px;position:relative;flex-wrap:wrap}
+  .seg{height:30px;border-radius:8px;padding:6px 10px;font-size:13px;display:inline-flex;align-items:center}
   .seg.travel{background:var(--travel)}
   .seg.stay{background:var(--stay)}
   .seg.transfer{background:var(--transfer)}
@@ -29,22 +30,33 @@
   .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
   .legend .item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
   .pill{width:16px;height:16px;border-radius:4px}
-  table{width:100%;border-collapse:collapse;margin-top:10px}
-  th,td{padding:8px;border-bottom:1px solid #eef2f7;text-align:left}
-  th{background:#fbfdfe}
   .muted{color:var(--muted);font-size:13px}
-  .proscons{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
-  .pc{flex:1;min-width:220px}
+  .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .form-row input,.form-row textarea, .form-row select{padding:8px;border-radius:8px;border:1px solid #e6eef0}
+  .appointments{margin-top:8px}
+  .appt{display:flex;justify-content:space-between;gap:8px;padding:8px;border-radius:8px;background:#fbfdfe;margin-bottom:6px}
+  .appt .left{font-size:13px}
+  .appt .right{display:flex;gap:6px}
+  .export-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .highlight-friday{background:var(--friday)!important}
-  @media(max-width:880px){.day-label{width:110px;font-size:13px}.bar{height:32px}.seg{font-size:12px}}
+
+  /* responsive mobile adjustments */
+  @media(max-width:720px){
+    .day-label{width:110px}
+    .bar{min-height:56px}
+    .form-row{flex-direction:column}
+    .option-head{flex-direction:column;align-items:flex-start}
+    .btn{width:100%}
+    .export-row .btn{flex:1}
+  }
 </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <div>
-        <h1>Khulna & Jashore Trip — Visual Planner</h1>
-        <div class="meta">Dates covered: 15 Dec 2025 → 21 Dec 2025 • Lunch & dinner markers included • Friday (19‑Dec‑2025) highlighted</div>
+        <h1>Khulna & Jashore — Interactive Planner</h1>
+        <div class="meta">Click "View Timeline" to expand. Add appointments, export to Google Calendar or download .ics for attendees.</div>
       </div>
       <div class="muted">Generated for: <strong>Muhaiminul Islam</strong></div>
     </header>
@@ -54,101 +66,39 @@
       <div class="card" id="optionA">
         <div class="option-head">
           <div>
-            <h3 style="margin:0">Option A — (No night stay at Khulna on 19‑12‑2025)</h3>
-            <div class="muted">Min leave required — Pros/Cons below</div>
+            <h3 style="margin:0">Option A — (No night stay at Khulna on 19-12-2025)</h3>
+            <div class="muted">Pros: Min leave required • Cons: Rush movement in Khulna (19-Dec, Friday)</div>
           </div>
-          <div>
-            <button class="btn" onclick="toggle('tlA')">Toggle Timeline</button>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="toggle('tlA')">View Timeline</button>
+            <button class="btn secondary" onclick="showAddForm('A')">Add Appointment</button>
           </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <strong>Itinerary (key legs)</strong>
-          <ul class="muted">
-            <li>15‑12‑2025: Ctg → Dhaka — <strong>Mahanagar Godhuli Express</strong> (Dep 15:00 • Arr 21:00)</li>
-            <li>16‑12‑2025: Dhaka → Jashore — <strong>Rupashi Bangla Express</strong> (Dep 10:45 • Arr 14:00) — <em>Lunch in Jashore</em></li>
-            <li>16–17‑12‑2025: Stay & sightseeing in Jashore</li>
-            <li>18‑12‑2025 morning: Move Jashore → Khulna (road) — Lunch in Khulna — Night stay Khulna</li>
-            <li>19‑12‑2025: Sightseeing Khulna — <strong>23:00</strong> Bus Khulna → Dhaka (overnight)</li>
-            <li>20‑12‑2025: Reach Dhaka morning — Flight to Ctg at night (~20:00)</li>
-          </ul>
         </div>
 
         <div id="tlA" class="timeline" style="display:none">
-          <!-- Day 15 -->
-          <div class="day-row">
-            <div class="day-label">15 Dec 2025 (Mon)</div>
-            <div class="bar">
-              <div class="seg travel">15:00–21:00 • Ctg → Dhaka (Mahanagar Godhuli)</div>
-            </div>
-          </div>
+          <!-- timeline days -->
+          <div class="day-row"><div class="day-label">15 Dec 2025 (Mon)</div><div class="bar"><div class="seg travel">15:00–21:00 • Ctg → Dhaka (Mahanagar Godhuli)</div></div></div>
 
-          <!-- Day 16 -->
-          <div class="day-row">
-            <div class="day-label">16 Dec 2025 (Tue)</div>
-            <div class="bar">
-              <div class="seg travel">10:45–14:00 • Dhaka → Jashore (Rupashi Bangla)</div>
-              <div class="seg meal">14:00–15:00 • Lunch (Jashore)</div>
-              <div class="seg stay">15:00–23:59 • Sightseeing/Stay (Jashore)</div>
-            </div>
-          </div>
+          <div class="day-row"><div class="day-label">16 Dec 2025 (Tue)</div><div class="bar"><div class="seg travel">10:45–14:00 • Dhaka → Jashore (Rupashi Bangla)</div><div class="seg meal">14:00–15:00 • Lunch (Jashore)</div><div class="seg stay">15:00–23:59 • Stay (Jashore)</div></div></div>
 
-          <!-- Day 17 -->
-          <div class="day-row">
-            <div class="day-label">17 Dec 2025 (Wed)</div>
-            <div class="bar">
-              <div class="seg stay">00:00–23:59 • Full day sightseeing (Jashore)</div>
-              <div class="seg meal" style="position:absolute;right:8px">Dinner</div>
-            </div>
-          </div>
+          <div class="day-row"><div class="day-label">17 Dec 2025 (Wed)</div><div class="bar"><div class="seg stay">00:00–23:59 • Full day sightseeing (Jashore)</div></div></div>
 
-          <!-- Day 18 -->
-          <div class="day-row">
-            <div class="day-label">18 Dec 2025 (Thu)</div>
-            <div class="bar">
-              <div class="seg transfer">08:00–11:00 • Jashore → Khulna (Road transfer)</div>
-              <div class="seg meal">12:30–13:30 • Lunch (Khulna)</div>
-              <div class="seg stay">14:00–23:59 • Stay (Khulna)</div>
-            </div>
-          </div>
+          <div class="day-row"><div class="day-label">18 Dec 2025 (Thu)</div><div class="bar"><div class="seg transfer">08:00–11:00 • Jashore → Khulna (Road)</div><div class="seg meal">12:30–13:30 • Lunch (Khulna)</div><div class="seg stay">14:00–23:59 • Stay (Khulna)</div></div></div>
 
-          <!-- Day 19 (Friday) -->
-          <div class="day-row highlight-friday">
-            <div class="day-label">19 Dec 2025 (Fri)</div>
-            <div class="bar">
-              <div class="seg stay">00:00–22:59 • Sightseeing (Khulna)</div>
-              <div class="seg meal">13:00–14:00 • Lunch</div>
-              <div class="seg travel">23:00–(overnight) • Bus Khulna → Dhaka</div>
-            </div>
-          </div>
+          <div class="day-row highlight-friday"><div class="day-label">19 Dec 2025 (Fri)</div><div class="bar"><div class="seg stay">00:00–22:59 • Sightseeing (Khulna)</div><div class="seg meal">13:00–14:00 • Lunch</div><div class="seg travel">23:00–(overnight) • Bus Khulna → Dhaka</div></div></div>
 
-          <!-- Day 20 -->
-          <div class="day-row">
-            <div class="day-label">20 Dec 2025 (Sat)</div>
-            <div class="bar">
-              <div class="seg travel">Early morning • Arrive Dhaka (from overnight bus)</div>
-              <div class="seg stay">Day in Dhaka until evening</div>
-              <div class="seg travel">20:00 • Flight Dhaka → Chattogram</div>
-            </div>
-          </div>
+          <div class="day-row"><div class="day-label">20 Dec 2025 (Sat)</div><div class="bar"><div class="seg travel">Early morning • Arrive Dhaka (overnight bus)</div><div class="seg stay">Day in Dhaka</div><div class="seg travel">20:00 • Flight Dhaka → Chattogram</div></div></div>
 
-          <div class="legend">
-            <div class="item"><span class="pill" style="background:var(--travel)"></span> Travel / Journey</div>
-            <div class="item"><span class="pill" style="background:var(--stay)"></span> Stay / Held up</div>
-            <div class="item"><span class="pill" style="background:var(--transfer)"></span> Short transfer (road)</div>
-            <div class="item"><span class="pill" style="background:var(--meal)"></span> Meal (Lunch/Dinner)</div>
-            <div class="item"><span class="pill" style="background:var(--friday)"></span> Friday</div>
-          </div>
+          <div class="appointments" id="apptsA"></div>
 
-          <div style="margin-top:12px" class="proscons">
-            <div class="pc card" style="padding:10px">
-              <strong>Pros</strong>
-              <ul class="muted"><li>Minimum leave required</li></ul>
-            </div>
-            <div class="pc card" style="padding:10px">
-              <strong>Cons</strong>
-              <ul class="muted"><li>Rush movement in Khulna on 19‑Dec (Friday)</li></ul>
-            </div>
+          <div class="form-row" id="formA" style="display:none">
+            <input type="date" id="dateA" />
+            <input type="time" id="startA" />
+            <input type="time" id="endA" />
+            <input type="text" id="titleA" placeholder="Appointment title" style="flex:1" />
+            <button class="btn secondary" onclick="addAppt('A')">Save</button>
+            <button class="btn" onclick="exportICS('A')">Download .ics (All)</button>
+            <button class="btn" onclick="exportAllToGoogle('A')">Export all to Google Calendar</button>
           </div>
         </div>
       </div>
@@ -157,90 +107,33 @@
       <div class="card" id="optionB">
         <div class="option-head">
           <div>
-            <h3 style="margin:0">Option B — (Night stay at Khulna on 19‑12‑2025)</h3>
-            <div class="muted">Moderate utilization, early rush on 20th</div>
+            <h3 style="margin:0">Option B — (Night stay at Khulna on 19-12-2025)</h3>
+            <div class="muted">Pros: Moderate utilization • Cons: Very rush morning in Khulna</div>
           </div>
-          <div>
-            <button class="btn" onclick="toggle('tlB')">Toggle Timeline</button>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="toggle('tlB')">View Timeline</button>
+            <button class="btn secondary" onclick="showAddForm('B')">Add Appointment</button>
           </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <strong>Itinerary (key legs)</strong>
-          <ul class="muted">
-            <li>15‑12‑2025: Ctg → Dhaka — Mahanagar Godhuli (15:00 → 21:00)</li>
-            <li>16‑12‑2025: Dhaka → Jashore — Rupashi Bangla (10:45 → 14:00) — Lunch Jashore</li>
-            <li>16–17‑12‑2025: Jashore stay</li>
-            <li>18‑12‑2025: Move to Khulna (road) — Lunch Khulna — Night stay Khulna</li>
-            <li>19‑12‑2025: Sightseeing Khulna — Night stay Khulna</li>
-            <li>20‑12‑2025: 06:00 • Early train Khulna → Dhaka — Arrive ~10:00 — Flight Dhaka → Ctg 20:00</li>
-          </ul>
         </div>
 
         <div id="tlB" class="timeline" style="display:none">
-          <!-- Day 15 -->
-          <div class="day-row">
-            <div class="day-label">15 Dec 2025 (Mon)</div>
-            <div class="bar"><div class="seg travel">15:00–21:00 • Ctg → Dhaka (Mahanagar Godhuli)</div></div>
-          </div>
+          <div class="day-row"><div class="day-label">15 Dec 2025 (Mon)</div><div class="bar"><div class="seg travel">15:00–21:00 • Ctg → Dhaka</div></div></div>
+          <div class="day-row"><div class="day-label">16 Dec 2025 (Tue)</div><div class="bar"><div class="seg travel">10:45–14:00 • Dhaka → Jashore</div><div class="seg meal">14:00–15:00 • Lunch</div><div class="seg stay">15:00–23:59 • Stay Jashore</div></div></div>
+          <div class="day-row"><div class="day-label">17 Dec 2025 (Wed)</div><div class="bar"><div class="seg stay">Full day • Sightseeing (Jashore)</div></div></div>
+          <div class="day-row"><div class="day-label">18 Dec 2025 (Thu)</div><div class="bar"><div class="seg transfer">08:00–11:00 • Jashore → Khulna</div><div class="seg meal">12:30–13:30 • Lunch</div><div class="seg stay">14:00–23:59 • Night stay Khulna</div></div></div>
+          <div class="day-row highlight-friday"><div class="day-label">19 Dec 2025 (Fri)</div><div class="bar"><div class="seg stay">00:00–23:59 • Sightseeing (Khulna)</div><div class="seg meal">13:00–14:00 • Lunch</div></div></div>
+          <div class="day-row"><div class="day-label">20 Dec 2025 (Sat)</div><div class="bar"><div class="seg travel">06:00–10:00 • Khulna → Dhaka (Train early)</div><div class="seg stay">10:00–19:30 • Dhaka day</div><div class="seg travel">20:00 • Flight Dhaka → Chattogram</div></div></div>
 
-          <!-- Day 16 -->
-          <div class="day-row">
-            <div class="day-label">16 Dec 2025 (Tue)</div>
-            <div class="bar">
-              <div class="seg travel">10:45–14:00 • Dhaka → Jashore (Rupashi Bangla)</div>
-              <div class="seg meal">14:00–15:00 • Lunch (Jashore)</div>
-              <div class="seg stay">15:00–23:59 • Stay (Jashore)</div>
-            </div>
-          </div>
+          <div class="appointments" id="apptsB"></div>
 
-          <!-- Day 17 -->
-          <div class="day-row">
-            <div class="day-label">17 Dec 2025 (Wed)</div>
-            <div class="bar"><div class="seg stay">Full day • Sightseeing (Jashore)</div></div>
-          </div>
-
-          <!-- Day 18 -->
-          <div class="day-row">
-            <div class="day-label">18 Dec 2025 (Thu)</div>
-            <div class="bar">
-              <div class="seg transfer">08:00–11:00 • Jashore → Khulna (road)</div>
-              <div class="seg meal">12:30–13:30 • Lunch (Khulna)</div>
-              <div class="seg stay">14:00–23:59 • Stay (Khulna)</div>
-            </div>
-          </div>
-
-          <!-- Day 19 (Friday) -->
-          <div class="day-row highlight-friday">
-            <div class="day-label">19 Dec 2025 (Fri)</div>
-            <div class="bar">
-              <div class="seg stay">00:00–23:59 • Sightseeing (Khulna)</div>
-              <div class="seg meal">13:00–14:00 • Lunch</div>
-              <div class="seg stay">19:00–23:59 • Night stay (Khulna)</div>
-            </div>
-          </div>
-
-          <!-- Day 20 -->
-          <div class="day-row">
-            <div class="day-label">20 Dec 2025 (Sat)</div>
-            <div class="bar">
-              <div class="seg travel">06:00–10:00 • Khulna → Dhaka (Train, early)</div>
-              <div class="seg stay">10:00–19:30 • Dhaka day</div>
-              <div class="seg travel">20:00 • Flight Dhaka → Chattogram</div>
-            </div>
-          </div>
-
-          <div class="legend">
-            <div class="item"><span class="pill" style="background:var(--travel)"></span> Travel</div>
-            <div class="item"><span class="pill" style="background:var(--stay)"></span> Stay</div>
-            <div class="item"><span class="pill" style="background:var(--transfer)"></span> Transfer (road)</div>
-            <div class="item"><span class="pill" style="background:var(--meal)"></span> Meal</div>
-            <div class="item"><span class="pill" style="background:var(--friday)"></span> Friday</div>
-          </div>
-
-          <div style="margin-top:12px" class="proscons">
-            <div class="pc card" style="padding:10px"><strong>Pros</strong><ul class="muted"><li>Moderate utilization of time and stay</li></ul></div>
-            <div class="pc card" style="padding:10px"><strong>Cons</strong><ul class="muted"><li>Very rush morning in Khulna (early train)</li></ul></div>
+          <div class="form-row" id="formB" style="display:none">
+            <input type="date" id="dateB" />
+            <input type="time" id="startB" />
+            <input type="time" id="endB" />
+            <input type="text" id="titleB" placeholder="Appointment title" style="flex:1" />
+            <button class="btn secondary" onclick="addAppt('B')">Save</button>
+            <button class="btn" onclick="exportICS('B')">Download .ics (All)</button>
+            <button class="btn" onclick="exportAllToGoogle('B')">Export all to Google Calendar</button>
           </div>
         </div>
       </div>
@@ -249,65 +142,145 @@
       <div class="card" id="optionC">
         <div class="option-head">
           <div>
-            <h3 style="margin:0">Option C — Relaxed morning leave to Dhaka on 20‑12‑2025 (returns 21‑Dec morning)</h3>
-            <div class="muted">Max stay — requires extra leave</div>
+            <h3 style="margin:0">Option C — (Relaxed: depart Khulna midday on 20-12)</h3>
+            <div class="muted">Pros: Max utilization • Cons: Extra leave required</div>
           </div>
-          <div>
-            <button class="btn" onclick="toggle('tlC')">Toggle Timeline</button>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="toggle('tlC')">View Timeline</button>
+            <button class="btn secondary" onclick="showAddForm('C')">Add Appointment</button>
           </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <strong>Itinerary (key legs)</strong>
-          <ul class="muted">
-            <li>15‑12‑2025: Ctg → Dhaka (Mahanagar Godhuli 15:00 → 21:00)</li>
-            <li>16‑12‑2025: Dhaka → Jashore (Rupashi Bangla 10:45 → 14:00) — Lunch Jashore</li>
-            <li>16–17‑12‑2025: Jashore stay</li>
-            <li>18‑12‑2025: Move to Khulna — Lunch Khulna — Night stay Khulna</li>
-            <li>19‑12‑2025: Sightseeing Khulna</li>
-            <li>20‑12‑2025: Noon/late-morning leave Khulna → Dhaka by bus — Arrive evening</li>
-            <li>21‑12‑2025: Early morning flight 07:45 • Dhaka → Chittagong</li>
-          </ul>
         </div>
 
         <div id="tlC" class="timeline" style="display:none">
-          <!-- Day 15 -->
           <div class="day-row"><div class="day-label">15 Dec 2025 (Mon)</div><div class="bar"><div class="seg travel">15:00–21:00 • Ctg → Dhaka</div></div></div>
-
-          <!-- Day 16 -->
-          <div class="day-row"><div class="day-label">16 Dec 2025 (Tue)</div><div class="bar"><div class="seg travel">10:45–14:00 • Dhaka → Jashore (Rupashi Bangla)</div><div class="seg meal">14:00–15:00 • Lunch (Jashore)</div><div class="seg stay">15:00–23:59 • Stay (Jashore)</div></div></div>
-
-          <!-- Day 17 -->
-          <div class="day-row"><div class="day-label">17 Dec 2025 (Wed)</div><div class="bar"><div class="seg stay">Full day • Sightseeing (Jashore)</div></div></div>
-
-          <!-- Day 18 -->
-          <div class="day-row"><div class="day-label">18 Dec 2025 (Thu)</div><div class="bar"><div class="seg transfer">08:00–11:00 • Jashore → Khulna (road)</div><div class="seg meal">12:30–13:30 • Lunch (Khulna)</div><div class="seg stay">14:00–23:59 • Night stay (Khulna)</div></div></div>
-
-          <!-- Day 19 (Friday) -->
+          <div class="day-row"><div class="day-label">16 Dec 2025 (Tue)</div><div class="bar"><div class="seg travel">10:45–14:00 • Dhaka → Jashore</div><div class="seg meal">14:00–15:00 • Lunch</div><div class="seg stay">15:00–23:59 • Stay Jashore</div></div></div>
+          <div class="day-row"><div class="day-label">17 Dec 2025 (Wed)</div><div class="bar"><div class="seg stay">Full day • Sightseeing Jashore</div></div></div>
+          <div class="day-row"><div class="day-label">18 Dec 2025 (Thu)</div><div class="bar"><div class="seg transfer">08:00–11:00 • Jashore → Khulna</div><div class="seg meal">12:30–13:30 • Lunch</div><div class="seg stay">14:00–23:59 • Night stay Khulna</div></div></div>
           <div class="day-row highlight-friday"><div class="day-label">19 Dec 2025 (Fri)</div><div class="bar"><div class="seg stay">Full day • Sightseeing (Khulna)</div><div class="seg meal">13:00–14:00 • Lunch</div></div></div>
-
-          <!-- Day 20 -->
           <div class="day-row"><div class="day-label">20 Dec 2025 (Sat)</div><div class="bar"><div class="seg transfer">10:00–18:00 • Khulna → Dhaka (Bus / road)</div><div class="seg stay">Evening in Dhaka</div></div></div>
-
-          <!-- Day 21 -->
           <div class="day-row"><div class="day-label">21 Dec 2025 (Sun)</div><div class="bar"><div class="seg travel">07:45 • Flight Dhaka → Chattogram</div></div></div>
 
-          <div class="legend" style="margin-top:10px"><div class="item"><span class="pill" style="background:var(--travel)"></span> Travel</div><div class="item"><span class="pill" style="background:var(--stay)"></span> Stay</div><div class="item"><span class="pill" style="background:var(--meal)"></span> Meal</div><div class="item"><span class="pill" style="background:var(--friday)"></span> Friday</div></div>
+          <div class="appointments" id="apptsC"></div>
 
-          <div style="margin-top:12px" class="proscons"><div class="pc card" style="padding:10px"><strong>Pros</strong><ul class="muted"><li>Max utilization of time and stay</li></ul></div><div class="pc card" style="padding:10px"><strong>Cons</strong><ul class="muted"><li>Max leave required; requires altering night duty on 20‑12</li></ul></div></div>
+          <div class="form-row" id="formC" style="display:none">
+            <input type="date" id="dateC" />
+            <input type="time" id="startC" />
+            <input type="time" id="endC" />
+            <input type="text" id="titleC" placeholder="Appointment title" style="flex:1" />
+            <button class="btn secondary" onclick="addAppt('C')">Save</button>
+            <button class="btn" onclick="exportICS('C')">Download .ics (All)</button>
+            <button class="btn" onclick="exportAllToGoogle('C')">Export all to Google Calendar</button>
+          </div>
         </div>
       </div>
 
     </div>
 
-    <footer style="margin-top:18px;color:var(--muted)">Click each option's <strong>Toggle Timeline</strong> button to expand the day-by-day coloured planner. Friday (19‑Dec‑2025) is highlighted. Meal slots show lunch/dinner as requested.</footer>
+    <footer style="margin-top:12px;color:var(--muted)">You can add appointments into any option; export generates calendar files for attendees. Google Calendar export opens the event creation page for review before saving.</footer>
   </div>
 
 <script>
+// simple in-memory storage (per option)
+const appts = { A: [], B: [], C: [] };
+
 function toggle(id){
   const el = document.getElementById(id);
   if(!el) return; el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
 }
+function showAddForm(opt){
+  document.getElementById('form'+opt).style.display = 'flex';
+}
+
+function addAppt(opt){
+  const date = document.getElementById('date'+opt).value;
+  const start = document.getElementById('start'+opt).value;
+  const end = document.getElementById('end'+opt).value;
+  const title = document.getElementById('title'+opt).value || 'Appointment';
+  if(!date || !start || !end){ alert('Pick date, start and end time'); return; }
+  const id = Math.random().toString(36).slice(2,9);
+  const ap = {id,title,date,start,end,notes:''};
+  appts[opt].push(ap);
+  renderAppts(opt);
+}
+
+function renderAppts(opt){
+  const el = document.getElementById('appts'+opt);
+  el.innerHTML = '';
+  appts[opt].forEach(a=>{
+    const div = document.createElement('div'); div.className='appt';
+    const left = document.createElement('div'); left.className='left'; left.innerHTML = `<strong>${a.title}</strong><div class='muted'>${a.date} • ${a.start}–${a.end}</div>`;
+    const right = document.createElement('div'); right.className='right';
+    const gbtn = document.createElement('button'); gbtn.className='btn secondary'; gbtn.textContent='Add to Google'; gbtn.onclick = ()=> openGoogleEvent(a);
+    const dbtn = document.createElement('button'); dbtn.className='btn'; dbtn.textContent='Download .ics'; dbtn.onclick = ()=> downloadSingleICS(a);
+    right.appendChild(gbtn); right.appendChild(dbtn);
+    div.appendChild(left); div.appendChild(right);
+    el.appendChild(div);
+  });
+}
+
+// Google Calendar link generator
+function formatDateToUTCString(dateStr, timeStr){
+  // dateStr: yyyy-mm-dd, timeStr: hh:mm
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const [hh,mm] = timeStr.split(':').map(Number);
+  const dt = new Date(Date.UTC(y, m-1, d, hh, mm));
+  // format as YYYYMMDDTHHMMSSZ
+  const iso = dt.toISOString(); // e.g. 2025-12-19T07:00:00.000Z
+  return iso.replace(/[-:]/g,'').replace('.000Z','') + 'Z';
+}
+
+function openGoogleEvent(ap){
+  const start = formatDateToUTCString(ap.date, ap.start);
+  const end = formatDateToUTCString(ap.date, ap.end);
+  const text = encodeURIComponent(ap.title);
+  const details = encodeURIComponent('Planned from trip planner');
+  const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${start}/${end}&details=${details}`;
+  window.open(url,'_blank');
+}
+
+// ICS exporter
+function toICSEvent(ap){
+  const uid = ap.id + '@tripplanner.local';
+  const dtstart = formatDateToUTCString(ap.date, ap.start);
+  const dtend = formatDateToUTCString(ap.date, ap.end);
+  return 'BEGIN:VEVENT\\r\\n' +
+         'UID:' + uid + '\\r\\n' +
+         'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').replace('.000Z','') + 'Z\\r\\n' +
+         'DTSTART:' + dtstart + '\\r\\n' +
+         'DTEND:' + dtend + '\\r\\n' +
+         'SUMMARY:' + ap.title + '\\r\\n' +
+         'DESCRIPTION:Added from Trip Planner\\r\\n' +
+         'END:VEVENT\\r\\n';
+}
+
+function exportICS(opt){
+  const items = appts[opt];
+  if(!items.length){ alert('No appointments to export'); return; }
+  let body = 'BEGIN:VCALENDAR\\r\\nVERSION:2.0\\r\\nPRODID:-//TripPlanner//EN\\r\\n';
+  items.forEach(i=> body += toICSEvent(i));
+  body += 'END:VCALENDAR\\r\\n';
+  const blob = new Blob([body], {type:'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `trip-${opt}.ics`; a.click(); URL.revokeObjectURL(url);
+}
+
+function downloadSingleICS(ap){
+  let body = 'BEGIN:VCALENDAR\\r\\nVERSION:2.0\\r\\nPRODID:-//TripPlanner//EN\\r\\n';
+  body += toICSEvent(ap);
+  body += 'END:VCALENDAR\\r\\n';
+  const blob = new Blob([body], {type:'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `${ap.title.replace(/\s+/g,'_')}.ics`; a.click(); URL.revokeObjectURL(url);
+}
+
+function exportAllToGoogle(opt){
+  // open google event creation for each appointment in new tabs — user must save each
+  if(!appts[opt].length){ alert('No appointments to export'); return; }
+  appts[opt].forEach(a=> openGoogleEvent(a));
+}
+
+// accessibility: Escape closes timelines
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ ['tlA','tlB','tlC'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); } });
 </script>
 </body>
 </html>
